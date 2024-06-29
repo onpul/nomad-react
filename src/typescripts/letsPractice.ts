@@ -4,208 +4,202 @@
  *
  */
 
+// 추상 클래스
+// 인스턴스를 만드는 걸 허용하지 않음 -> new User 불가능
+// 추상 클래스의 인스턴스 만드는 건 불가능하다.
+// 상속받는 클래스가 어떻게 동작해야 할지 일러 주기 위해서 사용하는 것.
+// abstract class User {
+//   constructor(protected firstName: string, protected lastName: string) {}
+//   abstract sayHi(name: string): string;
+//   abstract fullName(): string;
+// }
+// class Player extends User {
+//   fullName(): string {
+//     return `${this.firstName} ${this.lastName}`;
+//   }
+//   sayHi(name: string): string {
+//     return `Hello ${name}. My name is ${this.fullName}`;
+//   }
+// }
+// 중요한 점: 추상 클래스를 만들면, js로 컴파일되었을 때 결국 클래스로 변환 됨
+// 그래도 만드는 이유 -> 모든 클래스들이 표준화된 property 와 메소드를 갖도록 해 주는 청사진을 만들기 위해서.
+// -> 그래도 사용하지 않는 User 클래스가 js에 남아있으니, 인터페이스를 사용할 것.
+// -> 인터페이스는 컴파일해도 js로 바뀌지 않고 사라짐
+
+// 인터페이스를 쓸 때 클래스가 특정 형태를 따르도록 어떻게 강제하는가?
+
+// 추상 클래스 -> 인터페이스 변경
+// 인터페이스는 자바스크립트에 없어서 안 보임 -> 장점임
+interface User {
+  firstName: string;
+  lastName: string;
+  sayHi(name: string): string;
+  fullName(): string;
+}
+
+// 두 개의 인터페이스 동시 상속도 가능하다.
+// 어댑터 디자인 패턴 사용 시 유용하다.
+interface Human {
+  health: number;
+}
+
+// implements 사용
+class Player implements User, Human {
+  constructor(
+    public firstName: string,
+    public lastName: string,
+    public health: number,
+  ) {}
+  fullName(): string {
+    return `${this.firstName} ${this.lastName}`;
+  }
+  sayHi(name: string): string {
+    return `Hello ${name}. My name is ${this.fullName}`;
+  }
+}
+// 이슈: Property 'firstName' is private in type 'Player' but not in type 'User'
+// 인터페이스를 상속할 때에는 property를 private 으로 만들 수 없음
+
+// 인터페이스는 고유한 사  것의 문제점
+// 1) private property 들을 사용할 수 없음
+// 2) 추상 클래스에서는 가진 변수들을 그대로 가져와 사용할 수 있었으나, 인터페이스에서는 불가능
+
+// 인터페이스도 타입으로 사용 가능하다.
+function makeUser(user: User) {
+  return {
+    irstName: "nico",
+    lastName: "las",
+    fullName: () => "xx",
+    sayHi: (name) => "string",
+  };
+
+  // new User() 하지 않아도 됨
+}
+
+makeUser({
+  firstName: "nico",
+  lastName: "las",
+  fullName: () => "xx",
+  sayHi: (name) => "string",
+});
+
+// 4.4 Recap
 /**
- * # 기억해야 할 것
- * 1) 클래스 내에서 전역변수로 property 를 만든다.
- * 2) 생성자에서 원하는대로 초기화를 한다.
- * 3) 클래스를 타입으로 사용한다.
- *
- * # 질문
- * 1) 타입스크립트는 객체지향 언어인가? 객체지향의 정의가 정확히 뭐였더라?
- * 2) 생성자가 필요한 이유: 변수 초기화의 역할은 알겠으나, 굳이 전역변수로 변수를 선언한 후 초기화를 하는 이유가 뭘까?
- * 3) 변수 초기화 하는 이유
- * 4) 클래스를 타입으로 사용하는 이유: type 구문에서 정의해서 사용할 수 있는데, 왜 클래스로 타입을 정의하는지?
- * - type 구문으로 정의한 타입과, class 에서 정의한 타입의 차이점
+ * 추상 클래스를 다른 클래스들이 특정 모양을 따르도록 하기 위한 용도로 쓴다면,
+ * 추상 클래스보다는 인터페이스 사용이 더 좋다.
  */
 
-// 타입 만드는 방법1
-type Words = {
-  [key: string]: string;
+// 첫 번째, 기억할 것.
+// 타입을 쓰고 싶다면, type 키워드를 사용
+// 사용하는 방법은 아래 총 3개
+// 1) 오브젝트의 모양 설명
+// type Player = {
+
+// }
+// 2) 타입 alias 만들기
+// type Player = number;
+
+// 3) 타입을 특정된 값으로 만들기
+// type Player = "1" | "2"
+
+// 타입과 인터페이스를 만들어 보며, 어떻게 다른지 알아보자.
+type PlayerA = {
+  name: string;
 };
 
-// 타입 만드는 방법2
-// Word 클래스의 역할: 타입 정의를 위한 변수 선언
-// 생성자에서 term, def를 초기화
-class Word {
-  constructor(
-    public term: string, // 용어
-    public def: string, // 의미
-  ) {}
+// 타입 상속
+type PlayerAA = PlayerA & {
+  lastName: string;
+};
+const playerA: PlayerAA = {
+  name: "nico",
+  lastName: "xxx",
+};
+
+///////
+// 인터페이스
+interface PlayerB {
+  name: string;
 }
 
-/**
- *  접근 제한자(Access modifier)
- * public: 어디에서나 접근 가능, default
- * protected: 해당 클래스 혹은 서브클래스의 인스턴스에서만 접근 가능
- * private: 해당 클래스의 인스턴스에서만 접근 가능
- */
+// 인터페이스 상속
+interface PlayerB {
+  lastName: string;
+}
 
-// Dict 클래스의 역할: 단어의 생성, 수정, 삭제 처리
-class Dict {
-  // property가 constructor로부터 바로 초기화되지 않는 부분
-  // 중요1-property를 만들고 -> 생성자에서 원하는대로 초기화
-  // private로 설정하여 생성자 내부에서만 초기화하도록. 이유 -> 정보은닉?
-  private words: Words;
+// property를 추가하고 싶다면
+interface PlayerB {
+  health: number;
+}
 
-  // 질문: 생성자가 왜 필요하지? -> 수동으로 초기화
-  // 생성자 내부에 전역 변수 words 를 두면 왜 안 되지?
-  constructor() {
-    this.words = {};
+const playerB: PlayerB = {
+  name: "nico",
+  lastName: "xxx",
+  health: 3,
+};
+// A, B 둘 다 인터페이스인지 타입인지를 구분하기 어렵다.
+// 둘은 같은 목표인, '타입스크립트에게 오브젝트의 모양과 타입을 알려 주는 목표를' 갖고 있기 때문
+// 둘 다 그 목표를 수행하고 있음
+// 하지만, 둘을 이용해서 할 수 있는 게 다름. 네가 허용한 게 다름
+
+// 인터페이스와 타입 모두 추상 클래스를 대체해서 쓸 수 있다.
+// type PlayerA = {
+//   firstNAme: string;
+// };
+// interface PlayerB {
+//   firstNAme: string;
+// }
+// // 매우 유사, User 클래스에서 Player A, B 모두 상속할 수 있다.
+// // 또한 둘 모두 추상 클래스를 대체할 수 있다*****
+// class User implements PlayerB {
+//   constructor(public firstName: string) {}
+// }
+// 타입스크립트 커뮤니티에서는, 클래스나 오브젝트의 모양을 정의하고 싶으면
+// 인터페이스를 사용하고, 다른 모든 경우에서는 타입을 쓰라고 하고 있다.
+// 인터페이스를 상속하는 방법이 적관적이다.
+// - 타스 공식 문서 참고
+
+// 정리
+// 타입스크립트에게 오브젝트의 모양을 알려주기 위해서는 인터페이스를 쓰고,
+// 그 외의 경우에는 타입을 쓰자
+
+// 4.5 Polymorphism
+// 다형성, 제네릭, 클래스, 인터페이스 합쳐보기
+// 다형성-다른 모양의 코드를 가질 수 있게 해 주는 것
+// 다형성을 이루는 방법은, 제네릭을 사용하는 것
+// 제네릭은 placeholder 타입을 쓸 수 있도록 해 줌(concrete 타입 말고)
+
+// Storage: 이미 선언된 자바스크립트의 웹 스토리지 API를 위한 인터페이스
+interface SStorage<T> {
+  [key: string]: T; // key가 제한되지 않은 오브젝트를 정의하게 해 줌
+}
+
+class LocalStorage<T> {
+  private storage: SStorage<T> = {};
+  set(key: string, value: T) {
+    this.storage[key] = value;
   }
-
-  // 테스트용 더미 데이터 생성
-  setData() {
-    // 더미 데이터 객체에 직접 추가함
-    this.words = {
-      ...this.words,
-      dummy1: "더미데이터def1",
-      dummy2: "더미데이터def2",
-      dummy3: "더미데이터def3",
-      dummy4: "더미데이터def4",
-      dummy5: "더미데이터def5",
-    };
-
-    // this.add(new Word("dummy1", "더미데이터def1"));
-    // this.add(new Word("dummy2", "더미데이터def2"));
-    // this.add(new Word("dummy3", "더미데이터def3"));
-    // this.add(new Word("dummy4", "더미데이터def4"));
-    // this.add(new Word("dummy5", "더미데이터def5"));
+  // API 구현
+  remove(key: string) {
+    delete this.storage[key];
   }
-
-  // 전체 데이터 확인
-  getData() {
-    console.log("--- getData() 호출 ---");
-    console.log(JSON.stringify(this.words));
-    return "" + JSON.stringify(this.words);
+  get(key: string): T {
+    return this.storage[key];
   }
-
-  // 중요3-Word 클래스를 타입으로 사용
-  // #메소드1 : add / 역할: 단어를 추가함, 반환값 없음
-  add(word: Word): void {
-    console.log("--- add() 호출 ---");
-    // debugger;
-    if (this.words[word.term] === undefined) {
-      // 매개변수로 넘겨받은 단어가 전역에 없으면
-      this.words[word.term] = word.def; // 전역에 추가
-    }
-
-    // 테스트용
-    // this.getData();
-  }
-
-  // #메소드2 : get / 역할: 단어의 정의를 리턴함, 반환값 있음
-  get(word: string) {
-    console.log("--- get() 호출 ---");
-    return this.words[word];
-  }
-
-  // #메소드3: delete / 역할: 단어를 삭제함.
-  delete(word: string) {
-    console.log("--- delete() 호출 ---");
-    // !TODO: 넘겨받은 key 값에 해당하는 index 삭제 후 리턴
-    return [...[this.words], delete this.words[word]];
-  }
-
-  // #메소드4: update / 역할: 단어를 업데이트 함.
-  update(word: Word) {
-    // 키 값 모두 필요
-    // debugger
-    console.log("--- update() 호출 ---");
-    if (this.words[word.term]) {
-      // 용어가 같고, 의미를 수정할 경우
-      this.words[word.term] = word.def; // 의미만 수정
-    } else if (this.words[word.def]) {
-      this.words[word.def] = word.term; // 용어만 수정
-    }
-
-    // !TODO: 용어 수정인지, 의미 수정인지 추후 추가 구현하면 좋을 듯~
-  }
-
-  // #메소드5: showAll / 역할: 사전 단어를 모두 보여줌.
-  showAll() {
-    console.log("--- showAll() 호출 ---");
-    // console.log(JSON.stringify(this.words));
-
-    // 이후 REACT 구현 코드가 오겠지?
-    let showData =
-      "--- 모든 단어 노출 start ---\n" +
-      JSON.stringify(this.words) +
-      "\n--- 모든 단어 노출 end ---";
-    return console.log(showData);
-  }
-
-  // #메소드6: count / 역할: 사전 단어들의 총 갯수를 리턴함.
-  count() {
-    console.log("--- count() 호출 ---");
-    console.log(Object.keys(dict.words).length);
-    return Object.keys(dict.words).length;
-  }
-
-  // #메소드7: upsert / 역할: 단어를 업데이트 함. 존재하지 않을시. 이를 추가함. (update + insert = upsert)
-  upsert(word: Word) {
-    console.log("--- upsert() 호출 ---");
-    if (this.words[word.term] || this.words[word.def]) {
-      // 단어, 뜻 중 하나라도 있을 경우
-      this.update(word); // 업데이트 실행
-    } else {
-      this.add(word); // add 실행
-    }
-  }
-
-  // #메소드8: exists / 역할: 해당 단어가 사전에 존재하는지 여부를 알려줌.
-  exists(word: string) {
-    console.log("--- exists() 호출 ---");
-    if (this.words[word]) {
-      console.log("'" + word + "' 는 사전에 존재하는 단어입니다.");
-      return true;
-    } else {
-      console.log("'" + word + "' 는 사전에 존재하지 않습니다.");
-      return false;
-    }
-  }
-
-  // #메소드9: bulkAdd / 역할: 다음과 같은 방식으로. 여러개의 단어를 한번에 추가할 수 있게 해줌. [{term:"김치", definition:"대박이네~"}, {term:"아파트", definition:"비싸네~"}]
-  bulkAdd(arr: Words[]) {
-    // [{term:"김치", definition:"대박이네~"}, {term:"아파트", definition:"비싸네~"}]
-    console.log("--- bulkAdd() 호출 ---");
-    arr.map((val) => {
-      this.add(new Word(val.term, val.definition));
-    });
-    // new Word();
-  }
-
-  // #메소드10: bulkDelete / 역할: 다음과 같은 방식으로. 여러개의 단어를 한번에 삭제할 수 있게 해줌. ["김치", "아파트"]
-  bulkDelete(arr: string[]) {
-    // ["김치", "아파트"]
-    console.log("--- bulkDelete() 호출 ---");
-    arr.map((val) => {
-      this.delete(val);
-    });
+  clear() {
+    this.storage = {};
   }
 }
 
-// const kimchi = new Word("kimchi", "한국의 음식");
-const dict = new Dict();
-// dict.add(kimchi);
+const stringsStorage = new LocalStorage<string>();
 
-// 테스트용 로그
-console.log("--- 진입 ---");
-console.log("--- 더미데이터생성 ---");
-dict.setData(); // 테스트 더미데이터 생성
+stringsStorage.get("key");
+stringsStorage.set("hello", "how are you");
 
-// 실행 예시
-dict.add(new Word("어쩌구1", "어쩌구의뜻은저쩌구"));
-dict.get("어쩌구1");
-dict.delete("어쩌구1");
-dict.update(new Word("dummy1", "더미1수정합니다"));
-dict.showAll();
-dict.count();
-dict.upsert(new Word("없음", "없는단어추가했음"));
-dict.upsert(new Word("dummy1", "더미1수정2번합니다"));
-dict.exists("dummy1");
-dict.exists("온풀");
-dict.bulkAdd([
-  { term: "김치", definition: "대박이네~" },
-  { term: "아파트", definition: "비싸네~" },
-]);
-dict.bulkDelete(["김치", "아파트"]);
+const booleansStorage = new LocalStorage<Boolean>();
+
+booleansStorage.get("xxx");
+booleansStorage.set("hello", true);
+// <T> 제네릭을 인터페이스가 받음
+// 우리는 제네릭을 클래스로 보내고, 클래스는 제네릭을 인터페이스로 보낸 뒤에
+// 인터페이스는 제네릭을 사용!!!
