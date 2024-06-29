@@ -6,4 +6,8 @@
 
 ## 학습 중 정리
 
-강의 내용 및 개인 학습 중 필기는 모두 해당 repo 의 [src/notes](https://github.com/onpul/nomad-react/tree/til/src/notes) 경로에서 볼 수 있습니다.
+강의 내용 및 개인 학습 중 필기는 모두 해당 repo 의 [src/notes](https://github.com/onpul/nomad-react/tree/til/src/notes) 경로에 있습니다.
+
+## Assignments
+
+스터디 진행 중 수행하는 모든 과제는 해당 repo 의 [src/assignments](https://github.com/onpul/nomad-react/tree/til/src/assignments) 경로에 있습니다.
