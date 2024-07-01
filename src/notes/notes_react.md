@@ -8,3 +8,23 @@
 - styled components에서는 모든 게 가능.
 
 # #2.1 Our First Styled Component
+
+- `` : back tick
+- 백틱 사이에 들어가는 건 css 코드여야 함
+
+# #2.2 Adapting and Extending
+
+- 중복된 스타일에 특정 요소만 프로퍼티로 지정하기
+
+  ```javascript
+  // const Box
+  background-color: ${(props) => props.bgColor};
+  ```
+
+  ```javascript
+  // App()
+  <Father>
+    <Box bgColor="teal" />
+    <Box bgColor="tomato" />
+  </Father>
+  ```
