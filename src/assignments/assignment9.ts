@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 // --- 문제1 start ---
 // #1-문제: last(arr): 이 함수는 배열의 마지막 요소를 반환해야 합니다.
 // #1-풀이과정:

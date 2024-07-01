@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * 파일 변경 내역
  * 24.6.29. 토 : #4.2~#4.5 해당하는 내용 실습 및 필기
@@ -70,7 +71,7 @@ function makeUser(user: User) {
     irstName: "nico",
     lastName: "las",
     fullName: () => "xx",
-    sayHi: (name) => "string",
+    sayHi: () => "string",
   };
 
   // new User() 하지 않아도 됨
