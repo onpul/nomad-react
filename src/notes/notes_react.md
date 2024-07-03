@@ -148,3 +148,91 @@
   };
   // 'textColor', 'backgroundColor' 이름을 동일하게 설정
   ```
+
+# #3.1 DefinitelyTyped
+
+### 환경설정
+
+1. npm install --save typescript @types/node @types/react @types/react-dom @types/jest
+2. src 폴더 안에 있던 App.js와 index.js 파일을 App.tsx와 index.tsx 로 바꾼다.
+3. "npx tsc --init" 명령어로 tsconfig.json 파일 생성한 후, tsconfig.json 파일에 "jsx": "react-jsx"추가
+
+   ```
+    "compilerOptions": {
+      "jsx": "react-jsx"
+    }
+   ```
+
+4. src/index.tsx에서 수정
+
+   ```
+    import ReactDOM from "react-dom/client"
+
+    ## const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+   ```
+
+5. npm i --save-dev @types/styled-components
+
+### @type
+
+- 깃허브의 저장소 중 하나
+- 모든 유명한 npm 라이브러리를 가지고 있는 저장소
+- 타입스크립트에게 이 패키지가 뭔지 설명하는 용도.
+
+### how to type
+
+- PropTypes는 prop이 거기에 있는지 없는지 확인해 주지만, 코드를 실행한 '후'에만 확인 가능
+- 우리가 타입스크립트를 사용하는 이유는 코드가 실행되기 '전'에 오류를 확인하기 위해서임.
+- 타입스크립트로 보호해야 함
+- interface: object의 shape를 설명해 주는 타입스크립트의 개념
+- 예시:
+
+  ```typescript
+  interface PlayerShape {
+    name: string;
+    age: number;
+  }
+
+  const sayHello = (playerObj: PlayerShape) =>
+    `Hello ${playerObj.name} you are ${playerObj.age} years. old.`;
+
+  //sayHello({name: "nico"})
+  // 위 코드 작성 시 자동완성 기능 제공 -> 안정성 보장
+  ```
+
+- 중요: Prop Type와 유사하지만, interface는 타입스크립트 코드가 실행되기 전에 알려 주고, Prop Type은 실행 후 브라우저에 에러가 발생(콘솔)
+
+# #3.5 Forms
+
+[예제 코드 참고](https://github.com/nomadcoders/react-masterclass/commit/82ae9ee751263cc6ea14c264009107a5bf7ec1b2)
+
+### 어려웠던 문법 참고
+
+```
+  const onChange = (event: React.FormEvent<HTMLInputElement>) => {
+    const {
+      currentTarget: { value },
+    } = event;
+    setValue(value);
+  };
+
+```
+
+- ES6 문법이에요. event안 curentTarget안에 value의 값을 기존 이름 그대로 value 라는 변수를 만드는 거에요.
+- const value = event.currentTarget.value 랑 똑같습니다. 왜 저렇게 복잡하게 하냐고 물어보실수도 있는데 사실 저런식으로 한개만 만들때는 저 문법의 장점이 없어요.
+- 헌데 만약에 currentTarget안에서 value, tagName, width, id 이 4개를 가져오고 싶다고 하면 기존 문법으로는 이렇게 써야 되겠죠?
+
+```
+const value = event.currentTarget.value;
+const tagName = event.currentTarget.tagName;
+const width = event.currentTarget.width;
+const id = event.currentTarget.id;
+```
+
+- 이거를 이렇게 바꿔 쓰실수 있습니다.
+
+```
+const {
+currentTarget: {value, tagName, width, id}
+} = event;
+```
