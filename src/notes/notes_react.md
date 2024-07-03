@@ -28,3 +28,81 @@
     <Box bgColor="tomato" />
   </Father>
   ```
+
+# #2.3 'As' and Attrs
+
+- 해당 태그로 동작하고 싶을 때
+
+  ```javascript
+  <Btn as="a" href="/">
+    버튼입니다
+  </Btn>
+  ```
+
+- 공통으로 적용되어야 하는 요소가 있을 때
+
+  ```javascript
+  const Input = styled.input.attrs({ required: true, minLength: 10 })`
+    background-color: tomato;
+  `;
+  ```
+
+# #2.4 Animations and Pseudo Selectors
+
+- 애니메이션 사용 시에는 keyframes 를 import 해야 한다.
+
+  ```javascript
+  import styled, { keyframes } from "styled-components";
+  ```
+
+- Pseudo Selectors: styled components가 아닌 요소에 스타일 지정하기
+
+  ```javascript
+  const Box = styled.div`
+    span {
+      font-size: 36px;
+    }
+  `;
+  /* Box 요소 안에 있는 span 요소에 지정 가능 */
+  ```
+
+- hover 스타일 지정 시: 아래 두 방법 모두 동일
+
+  1.  ```javascript
+      const Box = styled.div`
+        span {
+          &:hover {
+          }
+        }
+      `;
+      /* '&' 는 span(here)을 가리키는 것과 같다. 단축어 같은 기능. */
+      ```
+  2.  ```javascript
+      const Box = styled.div`
+        span:hover {
+        }
+      `;
+      /* '&' 없이도 지정이 가능하다. */
+      ```
+
+# #2.5 Pseudo Selectors part Two
+
+- 타겟 지정하기
+
+  1.  ```javascript
+      <span>😎</span>
+      /* 이 경우, span 태그를 바꾸면, 위의 Pseudo 선택자의 태그도 바꿔줘야 하는 번거로움이 있음 */
+      /* 이모티콘 styled component 를 만들어 준다. */
+      ```
+  2.  ```javascript
+      ${Emoji} {
+        font-size: 36px;
+        &:hover {
+          font-size: 48px;
+        }
+        &:active {
+          opacity: 48px;
+        }
+      }
+      /* 컴포넌트 타겟 시 '$' 사용하여 지정 */
+      ```
