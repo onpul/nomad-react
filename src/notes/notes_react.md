@@ -106,3 +106,45 @@
       }
       /* 컴포넌트 타겟 시 '$' 사용하여 지정 */
       ```
+
+# #2.7 Themes
+
+- Themes: 색상을 가진 object
+- ThemeProvider import 하기
+
+  ```javascript
+  import { ThemeProvider } from "styled-components";
+  <ThemeProvider>
+    <App />
+  </ThemeProvider>;
+  // App 을 감싸준다.
+  ```
+
+- ThemeProvider 는 prop 하나가 필요
+
+  ```javascript
+  const darkTheme = {
+    textColor: "whitesmoke",
+    backgroundColor: "#111",
+  };
+  root.render(
+    <ThemeProvider theme={darkTheme}>
+      <App />
+    </ThemeProvider>,
+  );
+  // theme의 prop 넣어준다.
+  ```
+
+  - !중요: 라이트/다크 모드 구현 시, 요소의 이름이 같아야 한다.
+
+  ```javascript
+  const darkTheme = {
+    textColor: "whitesmoke",
+    backgroundColor: "#111",
+  };
+  const lightTheme = {
+    textColor: "#111",
+    backgroundColor: "whitesmoke",
+  };
+  // 'textColor', 'backgroundColor' 이름을 동일하게 설정
+  ```

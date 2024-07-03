@@ -29,52 +29,21 @@ import styled, { keyframes } from "styled-components";
 
 const Wrapper = styled.div`
   display: flex;
-`;
-
-const animation = keyframes`
-  0% {
-    transform: rotate(0deg);
-    border-radius: 0px;
-  } 50% {
-    /* transform: rotate(360deg); */
-    border-radius: 100px;
-  } 100% {
-    transform: rotate(360deg);
-    border-radius: 0px;
-  }
-`;
-
-const Emoji = styled.span`
-  font-size: 36px;
-`;
-
-const Box = styled.div`
-  background-color: tomato;
-  width: 200px;
-  height: 200px;
-  animation: ${animation} 1s linear infinite;
-  display: flex;
+  height: 100vh;
+  width: 100vw;
   justify-content: center;
   align-items: center;
-  ${Emoji} {
-    font-size: 36px;
-    &:hover {
-      font-size: 48px;
-    }
-    &:active {
-      opacity: 48px;
-    }
-  }
+  background-color: ${(props) => props.theme.backgroundColor};
+`;
+
+const Title = styled.h1`
+  color: ${(props) => props.theme.textColor};
 `;
 
 function App() {
   return (
     <Wrapper>
-      <Box>
-        <Emoji>😎</Emoji>
-        {/* 이 경우, span 태그를 바꾸면, 위의 Pseudo 선택자의 태그도 바꿔줘야 하는 번거로움이 있음 */}
-        {/* 이모티콘 styled component 를 만들어 줄 것 */}
-      </Box>
+      <Title>Hello</Title>
     </Wrapper>
   );
 }
