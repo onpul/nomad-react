@@ -218,6 +218,7 @@
 
 ```
 
+- (강의 댓글 참고)
 - ES6 문법이에요. event안 curentTarget안에 value의 값을 기존 이름 그대로 value 라는 변수를 만드는 거에요.
 - const value = event.currentTarget.value 랑 똑같습니다. 왜 저렇게 복잡하게 하냐고 물어보실수도 있는데 사실 저런식으로 한개만 만들때는 저 문법의 장점이 없어요.
 - 헌데 만약에 currentTarget안에서 value, tagName, width, id 이 4개를 가져오고 싶다고 하면 기존 문법으로는 이렇게 써야 되겠죠?
@@ -236,3 +237,17 @@ const {
 currentTarget: {value, tagName, width, id}
 } = event;
 ```
+
+# #4.0 Update Introduction(REACT ROUTER V6)
+
+- react router dom 5.3.4 버전 설치
+
+```
+npm i react-router-dom@5.3.4
+```
+
+- 최신 버전은 6.4.2 : 그들이 추구하는 철학의 방향성을 바꿨기 때문에 매우 다르다...
+
+- 라우터 최신 버전 챕터 건너뛰고, 5부터 함... (밀려서 ㅋㅋ)
+
+# # 5.0 Setup(CRYPTO TRACKER)
