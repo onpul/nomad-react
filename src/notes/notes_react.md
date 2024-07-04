@@ -250,4 +250,20 @@ npm i react-router-dom@5.3.4
 
 - 라우터 최신 버전 챕터 건너뛰고, 5부터 함... (밀려서 ㅋㅋ)
 
-# # 5.0 Setup(CRYPTO TRACKER)
+# # 5 CRYPTO TRACKER
+
+### 스타일 관련 참고 링크
+
+- [Reset CSS](https://github.com/zacanger/styled-reset/blob/master/src/index.ts)
+- [Google Fonts](https://fonts.google.com)
+- [flatuicolor](https://flatuicolors.com/)
+
+### createGlobalStyle
+
+- createGlobalStyle: 스타일 전역 적용
+
+  ```
+  import { createGlobalStyle } from "styled-components";
+  ```
+
+- 렌더링 될 때, 그 컴포넌트는 전역 스코프에 스타일들을 올려줌

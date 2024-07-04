@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Coin from "./routes/Coin";
+import Coins from "./routes/Coins";
 // npm i --save-dev @types/react-router-dom
 
 function Router() {
@@ -9,7 +10,9 @@ function Router() {
         <Route path="/:coinId">
           <Coin />
         </Route>
-        <Route path="/"></Route>
+        <Route path="/">
+          <Coins />
+        </Route>
       </Switch>
     </BrowserRouter>
   );
