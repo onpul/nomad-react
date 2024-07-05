@@ -258,6 +258,7 @@ npm i react-router-dom@5.3.4
 - [Google Fonts](https://fonts.google.com)
 - [flatuicolor](https://flatuicolors.com/)
 - [coinpaprika](https://api.coinpaprika.com/)
+- [cryptoicon](https://cryptoicon-api.pages.dev/)
 
 ### createGlobalStyle
 
