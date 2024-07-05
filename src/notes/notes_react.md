@@ -257,6 +257,7 @@ npm i react-router-dom@5.3.4
 - [Reset CSS](https://github.com/zacanger/styled-reset/blob/master/src/index.ts)
 - [Google Fonts](https://fonts.google.com)
 - [flatuicolor](https://flatuicolors.com/)
+- [coinpaprika](https://api.coinpaprika.com/)
 
 ### createGlobalStyle
 
