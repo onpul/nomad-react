@@ -1,5 +1,4 @@
 import { useQuery } from "react-query";
-import { Helmet } from "react-helmet";
 import {
   Switch,
   Route,
@@ -10,7 +9,6 @@ import {
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
-import Chart from "./Chart";
 import Price from "./Price";
 
 const Title = styled.h1`
@@ -148,23 +146,21 @@ function Coin() {
   const chartMatch = useRouteMatch("/:coinId/chart");
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ["info", coinId],
-    () => fetchCoinInfo(coinId)
+    () => fetchCoinInfo(coinId),
   );
   const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(
     ["tickers", coinId],
     () => fetchCoinTickers(coinId),
     {
       refetchInterval: 5000,
-    }
+    },
   );
   const loading = infoLoading || tickersLoading;
   return (
     <Container>
-      <Helmet>
-        <title>
-          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
-        </title>
-      </Helmet>
+      <title>
+        {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+      </title>
       <Header>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
@@ -213,9 +209,7 @@ function Coin() {
             <Route path={`/:coinId/price`}>
               <Price />
             </Route>
-            <Route path={`/:coinId/chart`}>
-              <Chart coinId={coinId} />
-            </Route>
+            <Route path={`/:coinId/chart`}></Route>
           </Switch>
         </>
       )}

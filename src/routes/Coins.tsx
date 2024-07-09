@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -66,11 +65,11 @@ interface ICoin {
 
 function Coins() {
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
+  console.log(data);
   return (
     <Container>
-      <Helmet>
-        <title>코인</title>
-      </Helmet>
+      <title>코인</title>
+      <button>Toggle Dark Mode</button>
       <Header>
         <Title>코인</Title>
       </Header>
@@ -87,7 +86,7 @@ function Coins() {
                 }}
               >
                 <Img
-                  src={`https://cryptoicon-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
+                  src={`https://cryptoicon-api.pages.dev/api/icon/${coin.symbol.toLowerCase()}`}
                 />
                 {coin.name} &rarr;
               </Link>
