@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
+import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { fetchCoins } from "../api";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -18,11 +20,11 @@ const Header = styled.header`
 const CoinsList = styled.ul``;
 
 const Coin = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
-  padding: 20px;
+  background-color: ${(props) => props.theme.cardBgColor};
+  color: ${(props) => props.theme.textColor};
   border-radius: 15px;
   margin-bottom: 10px;
+  border: 1px solid white;
   a {
     display: flex;
     align-items: center;
@@ -51,7 +53,8 @@ const Img = styled.img`
   height: 35px;
   margin-right: 10px;
 `;
-interface CoinInterface {
+
+interface ICoin {
   id: string;
   name: string;
   symbol: string;
@@ -62,37 +65,29 @@ interface CoinInterface {
 }
 
 function Coins() {
-  const [coins, setCoins] = useState<CoinInterface[]>([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    (async () => {
-      const response = await fetch("https://api.coinpaprika.com/v1/coins");
-      const json = await response.json();
-      console.log(json);
-      setCoins(json.slice(0, 10));
-      setLoading(false);
-    })();
-    // (async () => {
-    //   fetch("https://api.coinpaprika.com/v1/coins");
-    // })();
-  }, []);
+  const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
   return (
     <Container>
+      <Helmet>
+        <title>코인</title>
+      </Helmet>
       <Header>
         <Title>코인</Title>
       </Header>
-      {loading ? (
-        <Loader>loading....</Loader>
+      {isLoading ? (
+        <Loader>Loading...</Loader>
       ) : (
         <CoinsList>
-          {coins.map((coin) => (
+          {data?.slice(0, 100).map((coin) => (
             <Coin key={coin.id}>
               <Link
-                to={{ pathname: `/${coin.id}`, state: { name: coin.name } }}
+                to={{
+                  pathname: `/${coin.id}`,
+                  state: { name: coin.name },
+                }}
               >
                 <Img
-                  src={`https://cryptoicon-api.pages.dev/api/icon/${coin.symbol.toLowerCase()}`}
-                  alt={coin.name}
+                  src={`https://cryptoicon-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
                 />
                 {coin.name} &rarr;
               </Link>
